@@ -1,0 +1,11 @@
+id,name,category,price,description,features,stock
+1,AirPods Pro 2,Audio,24999,"Premium wireless earbuds with active noise cancellation","ANC;Spatial Audio;USB-C;24-hour battery",25
+2,Sony WH-1000XM5,Audio,29999,"Premium over-ear wireless headphones","ANC;30-hour battery;Multipoint;High-resolution audio",15
+3,Boat Rockerz 450,Audio,1499,"Affordable wireless headphones for everyday use","Bluetooth;15-hour battery;Lightweight",50
+4,Samsung Galaxy S25,Smartphone,74999,"Flagship Android smartphone with powerful performance","AMOLED;5G;256GB;AI features",10
+5,OnePlus Nord 5,Smartphone,29999,"Fast and affordable smartphone for everyday users","5G;120Hz display;Fast charging;256GB",20
+6,Apple iPhone 16,Smartphone,69999,"Premium smartphone with powerful camera and performance","A18 chip;48MP camera;5G;128GB",12
+7,Logitech MX Master 3S,Accessories,9999,"Professional wireless mouse for productivity","8K DPI;Multi-device;USB-C;Ergonomic",30
+8,Keychron K2,Accessories,7999,"Compact mechanical wireless keyboard","Mechanical switches;Bluetooth;RGB;Hot-swappable",18
+9,Anker PowerCore 20000,Accessories,2499,"High-capacity portable power bank","20000mAh;USB-C;Fast charging",40
+10,Apple Watch Series 10,Smartwatch,46999,"Advanced smartwatch for health and productivity","Fitness tracking;GPS;OLED;Notifications",8

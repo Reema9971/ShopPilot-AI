@@ -132,3 +132,24 @@ The system:
                            │
                            ▼
                   Business Dashboard
+
+---
+
+## Demo Screenshots
+
+### 🤖 AI Sales Agent
+![AI Sales Agent](screenshots/ai-agent.png)
+
+### 📦 Product Catalogue
+![Product Catalogue](screenshots/product-catalogue.png)
+
+### 💳 Razorpay Test Payment
+![Razorpay Test Payment](screenshots/razorpay-payment.png)
+
+### 🔄 Payment Confirmation
+![Payment Confirmation](screenshots/order-table.png)
+
+### 📊 Business Dashboard
+![Business Dashboard](screenshots/dashboard.png)
+
+---

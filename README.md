@@ -147,8 +147,8 @@ The system:
 ### 💳 Razorpay Test Payment
 ![Razorpay Test Payment](screenshots/razorpay-payment.png)
 
-### 🔄 Payment Confirmation
-![Payment Confirmation](screenshots/order-table.png)
+### 🔄 Order-Table
+![Order-Table](screenshots/order-table.png)
 
 ### 📊 Business Dashboard
 ![Business Dashboard](screenshots/dashboard.png)

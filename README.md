@@ -132,6 +132,7 @@ The system:
                            │
                            ▼
                   Business Dashboard
+```
 
 ---
 

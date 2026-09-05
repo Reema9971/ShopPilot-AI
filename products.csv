@@ -9,3 +9,18 @@ id,name,category,price,description,features,stock
 8,Keychron K2,Accessories,7999,"Compact mechanical wireless keyboard","Mechanical switches;Bluetooth;RGB;Hot-swappable",18
 9,Anker PowerCore 20000,Accessories,2499,"High-capacity portable power bank","20000mAh;USB-C;Fast charging",40
 10,Apple Watch Series 10,Smartwatch,46999,"Advanced smartwatch for health and productivity","Fitness tracking;GPS;OLED;Notifications",8
+11,boAt Airdopes 141,Audio,1299,"Affordable true wireless earbuds for everyday listening","Bluetooth;42-hour battery;Fast charging;Wireless",35
+12,JBL Tune 510BT,Audio,2499,"Lightweight wireless headphones with strong battery life","Bluetooth;40-hour battery;Lightweight;Hands-free calls",30
+13,Noise Buds VS104,Audio,999,"Compact wireless earbuds with long battery life","Bluetooth;TWS;20-hour battery;Touch controls",40
+14,Realme Buds Wireless 3,Audio,1799,"Wireless neckband with clear sound and long battery life","Bluetooth;Bass boost;40-hour battery;Fast charging",25
+15,Redmi Note 14,Smartphone,17999,"Mid-range smartphone with a bright display and reliable performance","AMOLED;5G;108MP camera;256GB",25
+16,Realme Narzo 80 Pro,Smartphone,21999,"Performance-focused smartphone with fast charging","AMOLED;5G;Fast charging;256GB",20
+17,Redmi 13 5G,Smartphone,13999,"Affordable 5G smartphone for everyday use","5G;120Hz display;108MP camera;128GB",30
+18,Motorola G85 5G,Smartphone,16999,"Stylish smartphone with smooth display and dependable performance","pOLED;5G;50MP camera;256GB",25
+19,boAt Wave Sigma,Smartwatch,1499,"Affordable smartwatch for fitness and everyday notifications","Fitness tracking;Bluetooth calling;Heart rate;1.96-inch display",30
+20,Noise ColorFit Pulse 4,Smartwatch,1999,"Feature-rich smartwatch with health and fitness tracking","AMOLED;Heart rate;SpO2;Bluetooth calling",25
+21,Fire-Boltt Phoenix Pro,Smartwatch,1299,"Budget smartwatch with calling and fitness features","Bluetooth calling;Heart rate;SpO2;Notifications",35
+22,Redmi Power Bank 10000mAh,Accessories,899,"Compact power bank for charging smartphones on the go","10000mAh;USB-C;Fast charging;Dual output",50
+23,Portronics Power Plate,Accessories,799,"Compact charging accessory for everyday use","USB ports;Compact;Portable;Fast charging",40
+24,Logitech M331 Mouse,Accessories,1199,"Quiet wireless mouse designed for comfortable everyday use","Wireless;Silent clicks;Ergonomic;2.4GHz",30
+25,HP Wireless Keyboard and Mouse,Accessories,1499,"Wireless keyboard and mouse combo for home and office use","Wireless;Full-size keyboard;Optical mouse;USB receiver",25

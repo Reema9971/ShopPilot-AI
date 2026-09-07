@@ -1,12 +1,16 @@
 import re
+from urllib import response
+from xmlrpc import client
+from google import genai
 import requests
 import pandas as pd
+from google import genai
 
 from database import get_products
 
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "llama3.2"
+# OLLAMA_URL = "http://localhost:11434/api/generate"
+# MODEL = "llama3.2"
 
 
 def load_products():
@@ -356,10 +360,9 @@ def ask_agent(user_message, conversation_history=None):
     history_text = ""
 
     for message in conversation_history[-6:]:
-
         history_text += (
-            f"{message['role'].upper()}: "
-            f"{message['content']}\n"
+            f"{message.get('role', 'user').upper()}: "
+            f"{message.get('content') or ''}\n"
         )
 
     # -----------------------------------
@@ -495,19 +498,40 @@ Respond naturally to the customer.
     # Call Ollama
     # -----------------------------------
 
-    response = requests.post(
-        OLLAMA_URL,
-        json={
-            "model": MODEL,
-            "prompt": prompt,
-            "stream": False
-        },
-        timeout=300
+
+    client = genai.Client()
+    last_error = None
+
+    for model_name in (
+        "gemini-3.7-flash",
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+    ):
+        for attempt in range(2):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                )
+                print(response.text)
+                return response.text
+            except Exception as error:
+                last_error = error
+                error_text = str(error).upper()
+                is_temporary = (
+                    "503" in error_text
+                    or "UNAVAILABLE" in error_text
+                )
+
+                if not is_temporary:
+                    raise
+
+        
+    print(f"Gemini service unavailable: {last_error}")
+    return (
+        "The AI service is temporarily busy. "
+        "Please try again in a moment."
     )
-
-    response.raise_for_status()
-
-    return response.json()["response"]
 
 def detect_purchase_intent(text):
     """

@@ -225,6 +225,38 @@ def filter_products(user_message):
     return products, budget
 
 
+def format_recommendations(products, budget=None):
+    """Build reliable recommendation text from catalogue records."""
+
+    if budget is not None:
+        opening = (
+            f"Here are the available options within your budget of "
+            f"₹{budget:,.0f}:"
+        )
+    else:
+        opening = "Here are the available options from our catalogue:"
+
+    recommendations = []
+
+    for number, (_, product) in enumerate(products.iterrows(), start=1):
+        features = [
+            item.strip()
+            for item in str(product["features"]).split(";")
+            if item.strip()
+        ]
+        feature_text = "; ".join(features[:4])
+        recommendations.append(
+            f"{number}. {product['name']} — ₹{float(product['price']):,.0f}\n"
+            f"   Description: {product['description']}\n"
+            f"   Features: {feature_text}\n"
+            f"   Stock: {int(product['stock'])} units"
+        )
+
+    return opening + "\n\n" + "\n\n".join(recommendations) + (
+        "\n\nWhich product would you like to choose?"
+    )
+
+
 def ask_agent(user_message, conversation_history=None):
 
     if conversation_history is None:
@@ -391,19 +423,13 @@ Your job is to:
    - "I'll take it"
 15. If the customer explicitly names a product, acknowledge it.
 16. If the customer wants to purchase a product previously discussed,
-    resolve references like "it", "that one", or "this" to the most recently
     relevant product and clearly identify that product.
-17. If the customer wants to purchase a product, do NOT ask them to accept
-    the available stock quantity. Stock is an availability value, not a
    quantity the customer must purchase.
 18. If the customer wants to purchase but no product is selected,
     ask which product they want.
 19. Do not invent confirmation requirements that are not part of the
     purchasing process.
-20. Be concise but informative. When recommending products, provide enough
     details about each product's price, features, description, and stock.
-
-{budget_instruction}
 
 IMPORTANT RESPONSE RULE:
 
@@ -435,7 +461,14 @@ When the customer asks for product recommendations:
 
 Example format:
 
-1. Product Name — ₹Price
+                response_text = response.json()["response"]
+
+                # Some local models copy the example labels instead of filling them in.
+                # Replace that malformed output with values read directly from the catalogue.
+                if "Product Name" in response_text or "₹Price" in response_text:
+                    return format_recommendations(products, budget)
+
+                return response_text
    Description: ...
    Features: ...
    Stock: ... units

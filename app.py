@@ -1159,285 +1159,398 @@ if page == "🤖 AI Sales Agent":
 
                     st.divider()
 
-                    st.subheader(
-                        "💳 Complete Payment"
-                    )
+                    with st.container(border=True):
+                        st.subheader(
+                            "💳 Complete Payment"
+                        )
 
-                    st.info(
-                        f"""
-This is Razorpay TEST mode.
+                        st.markdown(
+                            """
+                            <style>
+                            .payment-demo-banner {
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                padding: 16px 18px;
+                                border-radius: 14px;
+                                background: linear-gradient(
+                                    135deg,
+                                    rgba(40, 124, 190, 0.28),
+                                    rgba(70, 165, 225, 0.12)
+                                );
+                                border: 1px solid rgba(123, 210, 255, 0.45);
+                                color: #ebf7ff;
+                                font-size: 1.05rem;
+                                font-weight: 600;
+                                margin-bottom: 1rem;
+                                box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+                            }
+                            .payment-demo-icon {
+                                width: 28px;
+                                height: 28px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                border-radius: 8px;
+                                background: rgba(255,255,255,0.12);
+                                font-size: 1rem;
+                            }
+                            </style>
+                            <div class="payment-demo-banner">
+                                <div class="payment-demo-icon">🛡️</div>
+                                <div>No real money will be charged.</div>
+                            </div>
+                            """,
+                            unsafe_allow_html=True,
+                        )
 
-Product price:
-₹{pending_order['price']:,.0f}
+                        # -------------------------------------------------
+                        # SAFE VALUES FOR JAVASCRIPT
+                        # -------------------------------------------------
 
-Demo payment amount:
-₹{DEMO_PAYMENT_AMOUNT:,.0f}
+                        js_key_id = json.dumps(
+                            RAZORPAY_KEY_ID
+                        )
 
-No real money will be charged.
-"""
-                    )
+                        js_order_id = json.dumps(
+                            razorpay_order_id
+                        )
 
-                    # -------------------------------------------------
-                    # SAFE VALUES FOR JAVASCRIPT
-                    # -------------------------------------------------
+                        js_name = json.dumps(
+                            pending_order["customer_name"]
+                        )
 
-                    js_key_id = json.dumps(
-                        RAZORPAY_KEY_ID
-                    )
+                        js_contact = json.dumps(
+                            pending_order["contact"]
+                        )
 
-                    js_order_id = json.dumps(
-                        razorpay_order_id
-                    )
+                        js_amount = (
+                            DEMO_PAYMENT_AMOUNT * 100
+                        )
 
-                    js_name = json.dumps(
-                        pending_order["customer_name"]
-                    )
+                        # -------------------------------------------------
+                        # RAZORPAY CHECKOUT
+                        # -------------------------------------------------
 
-                    js_contact = json.dumps(
-                        pending_order["contact"]
-                    )
+                        checkout_html = f"""
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta charset="UTF-8">
 
-                    js_amount = (
-                        DEMO_PAYMENT_AMOUNT * 100
-                    )
+                            <script src=
+                            "https://checkout.razorpay.com/v1/checkout.js">
+                            </script>
 
-                    # -------------------------------------------------
-                    # RAZORPAY CHECKOUT
-                    # -------------------------------------------------
+                            <style>
 
-                    checkout_html = f"""
-                    <!DOCTYPE html>
-                    <html>
-                    <head>
-                        <meta charset="UTF-8">
+                            body {{
+                                margin: 0;
+                                padding: 10px;
+                                background: transparent;
+                                font-family: Arial, sans-serif;
+                            }}
 
-                        <script src=
-                        "https://checkout.razorpay.com/v1/checkout.js">
-                        </script>
+                            .payment-box {{
+                                padding: 22px 22px 18px;
+                                border-radius: 22px;
+                                border: 1px solid rgba(144, 191, 223, 0.35);
+                                background: linear-gradient(
+                                    135deg,
+                                    rgba(9, 17, 26, 0.97),
+                                    rgba(20, 28, 38, 0.96)
+                                );
+                                box-shadow: 0 12px 24px rgba(0, 0, 0, 0.28);
+                            }}
 
-                        <style>
+                            .payment-header {{
+                                display: flex;
+                                align-items: center;
+                                gap: 12px;
+                                margin-bottom: 20px;
+                            }}
 
-                        body {{
-                            margin: 0;
-                            padding: 10px;
-                            background: transparent;
-                            font-family: Arial, sans-serif;
-                        }}
+                            .payment-logo {{
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                width: 40px;
+                                height: 40px;
+                                border-radius: 12px;
+                                background: linear-gradient(
+                                    135deg,
+                                    #6cc5f5,
+                                    #3d9ae5
+                                );
+                                box-shadow: 0 8px 16px rgba(61, 154, 229, 0.35);
+                                font-size: 22px;
+                            }}
 
-                        .payment-box {{
-                            padding: 20px;
-                            border-radius: 10px;
-                            border: 1px solid #444;
-                            background: #11141a;
-                        }}
+                            .payment-title {{
+                                color: #f4f8fb;
+                                font-size: 28px;
+                                font-weight: 800;
+                                letter-spacing: -0.03em;
+                                margin: 0;
+                            }}
 
-                        .payment-title {{
-                            color: white;
-                            font-size: 20px;
-                            font-weight: bold;
-                            margin-bottom: 10px;
-                        }}
+                            .payment-meta {{
+                                display: flex;
+                                flex-direction: column;
+                                gap: 14px;
+                                margin-bottom: 22px;
+                            }}
 
-                        .payment-info {{
-                            color: #aaa;
-                            margin-bottom: 15px;
-                        }}
+                            .payment-row {{
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: center;
+                                gap: 12px;
+                                padding: 12px 14px;
+                                border-radius: 12px;
+                                background: rgba(255, 255, 255, 0.02);
+                                border: 1px solid rgba(255, 255, 255, 0.05);
+                            }}
 
-                        button {{
-                            background: #3399cc;
-                            color: white;
-                            border: none;
-                            border-radius: 6px;
-                            padding: 14px 24px;
-                            font-size: 17px;
-                            cursor: pointer;
-                        }}
+                            .detail-label {{
+                                font-size: 13px;
+                                font-weight: 700;
+                                color: #a7bac8;
+                                text-transform: uppercase;
+                                letter-spacing: 0.06em;
+                            }}
 
-                        button:hover {{
-                            background: #287fa8;
-                        }}
+                            .detail-value {{
+                                font-size: 18px;
+                                font-weight: 700;
+                                color: #f3f7fb;
+                            }}
 
-                        </style>
-                    </head>
+                            .product-value {{
+                                font-size: 20px;
+                                font-weight: 800;
+                                color: #ffffff;
+                                text-align: right;
+                            }}
 
-                    <body>
+                            button {{
+                                width: 100%;
+                                background: linear-gradient(
+                                    135deg,
+                                    #6cc5f5,
+                                    #3d9ae5
+                                );
+                                color: white;
+                                border: none;
+                                border-radius: 16px;
+                                padding: 18px 24px;
+                                font-size: 20px;
+                                font-weight: 800;
+                                cursor: pointer;
+                                box-shadow: 0 12px 24px rgba(61, 154, 229, 0.3);
+                                transition: transform 0.15s ease, box-shadow 0.15s ease;
+                            }}
 
-                    <div class="payment-box">
+                            button:hover {{
+                                background: linear-gradient(
+                                    135deg,
+                                    #7fd0ff,
+                                    #4aa6eb
+                                );
+                                box-shadow: 0 16px 28px rgba(61, 154, 229, 0.38);
+                            }}
 
-                        <div class="payment-title">
-                            💳 Razorpay Test Payment
+                            button:active {{
+                                transform: translateY(1px);
+                            }}
+
+                            </style>
+                        </head>
+
+                        <body>
+
+                        <div class="payment-box">
+
+                            <div class="payment-header">
+                                <div class="payment-logo">💳</div>
+                                <div class="payment-title">
+                                    Razorpay Test Payment
+                                </div>
+                            </div>
+
+                            <div class="payment-meta">
+                                <div class="payment-row">
+                                    <span class="detail-label">Demo amount</span>
+                                    <span class="detail-value">
+                                        ₹{DEMO_PAYMENT_AMOUNT:,}
+                                    </span>
+                                </div>
+
+                                <div class="payment-row">
+                                    <span class="detail-label">Product</span>
+                                    <span class="product-value">
+                                        {html.escape(
+                                            pending_order["product"]
+                                        )}
+                                    </span>
+                                </div>
+                            </div>
+
+                            <button onclick="startPayment()">
+                                💳 Pay ₹{DEMO_PAYMENT_AMOUNT:,}
+                            </button>
+
                         </div>
 
-                        <div class="payment-info">
-                            Demo amount:
-                            <strong>
-                                ₹{DEMO_PAYMENT_AMOUNT:,}
-                            </strong>
-                            <br><br>
+                        <script>
 
-                            Product:
-                            <strong>
-                                {html.escape(
-                                    pending_order["product"]
-                                )}
-                            </strong>
-                        </div>
+                        function startPayment() {{
 
-                        <button onclick="startPayment()">
-                            💳 Pay ₹{DEMO_PAYMENT_AMOUNT:,}
-                        </button>
+                            var options = {{
 
-                    </div>
+                                "key": {js_key_id},
 
-                    <script>
+                                "amount": {js_amount},
 
-                    function startPayment() {{
+                                "currency": "INR",
 
-                        var options = {{
+                                "name": "ShopPilot AI",
 
-                            "key": {js_key_id},
+                                "description":
+                                    "Test payment for "
+                                    + {js_name},
 
-                            "amount": {js_amount},
+                                "order_id":
+                                    {js_order_id},
 
-                            "currency": "INR",
+                                "prefill": {{
 
-                            "name": "ShopPilot AI",
+                                    "name":
+                                        {js_name},
 
-                            "description":
-                                "Test payment for "
-                                + {js_name},
-
-                            "order_id":
-                                {js_order_id},
-
-                            "prefill": {{
-
-                                "name":
-                                    {js_name},
-
-                                "email":
-                                    {js_contact}
-
-                            }},
-
-                            "theme": {{
-
-                                "color": "#3399cc"
-
-                            }},
-
-                            "handler":
-                                function(response) {{
-
-                                    var params =
-                                        new URLSearchParams();
-
-                                    params.set(
-                                        "payment_success",
-                                        "1"
-                                    );
-
-                                    params.set(
-                                        "razorpay_payment_id",
-                                        response.razorpay_payment_id
-                                    );
-
-                                    params.set(
-                                        "razorpay_order_id",
-                                        response.razorpay_order_id
-                                    );
-
-                                    params.set(
-                                        "razorpay_signature",
-                                        response.razorpay_signature
-                                    );
-
-                                    window.parent.location.href =
-                                        window.parent.location.origin
-                                        +
-                                        window.parent.location.pathname
-                                        +
-                                        "?"
-                                        +
-                                        params.toString();
+                                    "email":
+                                        {js_contact}
 
                                 }},
 
-                            "modal": {{
+                                "theme": {{
 
-                                "ondismiss":
-                                    function() {{
+                                    "color": "#3399cc"
 
-                                        console.log(
-                                            "Payment popup closed"
+                                }},
+
+                                "handler":
+                                    function(response) {{
+
+                                        var params =
+                                            new URLSearchParams();
+
+                                        params.set(
+                                            "payment_success",
+                                            "1"
                                         );
 
-                                    }}
+                                        params.set(
+                                            "razorpay_payment_id",
+                                            response.razorpay_payment_id
+                                        );
 
-                            }}
+                                        params.set(
+                                            "razorpay_order_id",
+                                            response.razorpay_order_id
+                                        );
 
-                        }};
+                                        params.set(
+                                            "razorpay_signature",
+                                            response.razorpay_signature
+                                        );
 
-                        var rzp =
-                            new Razorpay(options);
+                                        window.parent.location.href =
+                                            window.parent.location.origin
+                                            +
+                                            window.parent.location.pathname
+                                            +
+                                            "?"
+                                            +
+                                            params.toString();
 
-                        rzp.on(
-                            "payment.failed",
-                            function(response) {{
+                                    }},
 
-                                alert(
-                                    "Payment failed: "
-                                    +
-                                    response.error.description
-                                );
+                                "modal": {{
 
-                            }}
-                        );
+                                    "ondismiss":
+                                        function() {{
 
-                        rzp.open();
+                                            console.log(
+                                                "Payment popup closed"
+                                            );
 
-                    }}
+                                        }}
 
-                    </script>
+                                }}
 
-                    </body>
-                    </html>
-                    """
+                            }};
 
-                    components.html(
-                        checkout_html,
-                        height=180,
-                    )
-                    
-                    st.markdown("### 🔄 Payment Confirmation")
-                    if st.button(
-                        "✅ Sync Payment Status",
-                        key=f"sync_payment_{razorpay_order_id}"
-                        
-                    ):
-                        success, result = sync_razorpay_payment(
-                            razorpay_order_id
+                            var rzp =
+                                new Razorpay(options);
+
+                            rzp.on(
+                                "payment.failed",
+                                function(response) {{
+
+                                    alert(
+                                        "Payment failed: "
+                                        +
+                                        response.error.description
+                                    );
+
+                                }}
+                            );
+
+                            rzp.open();
+
+                        }}
+
+                        </script>
+
+                        </body>
+                        </html>
+                        """
+
+                        components.html(
+                            checkout_html,
+                            height=280,
                         )
-                        if success:
-                            st.success(
-                                "🎉 Payment confirmed successfully!"
+                        
+                        st.markdown("### 🔄 Payment Confirmation")
+                        if st.button(
+                            "✅ Sync Payment Status",
+                            key=f"sync_payment_{razorpay_order_id}"
+                            
+                        ):
+                            success, result = sync_razorpay_payment(
+                                razorpay_order_id
                             )
-                            if result != "Payment already recorded.":
-                                st.info(
-                                    f"Payment ID: {result}"
+                            if success:
+                                st.success(
+                                    "🎉 Payment confirmed successfully!"
                                 )
-                                st.rerun()
-                                
-                        else:
-                            st.warning(
-                                 f"Payment not confirmed: {result}"
-                            )
+                                if result != "Payment already recorded.":
+                                    st.info(
+                                        f"Payment ID: {result}"
+                                    )
+                                    st.rerun()
+                                    
+                            else:
+                                st.warning(
+                                     f"Payment not confirmed: {result}"
+                                )
 
 
-                    st.caption(
-                        "Razorpay TEST mode — "
-                        "No real money will be charged."
-                    )
+                        st.caption(
+                            "Razorpay TEST mode — "
+                            "No real money will be charged."
+                        )
 
     # =====================================================
     # PAYMENT SUCCESS HANDLING
